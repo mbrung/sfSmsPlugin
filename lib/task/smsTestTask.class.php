@@ -39,8 +39,7 @@ EOF;
 		
 		sfConfig::set("sms_delivery_method", "realtime");
 		sfConfig::set("sms_gateway_class", "SmsGateways_".$options["gateway"]);
-		sfConfig::set("sms_gateway_api_key", "");
-		
+
 		$sms = new Sms($arguments["recipient"],"Contenu");
 		$sms->send();
 		
