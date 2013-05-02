@@ -23,6 +23,7 @@ abstract class SmsDeliveryGateway
 			$this->doPerformDelivery();		
 		} catch (Exception $e)
 		{
+			print_r($e->getMessage());
 			$this->crit($e->getMessage());	
 		}
 	}

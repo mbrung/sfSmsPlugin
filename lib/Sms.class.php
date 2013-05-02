@@ -3,6 +3,8 @@ class Sms
 {
 	public $recipient;
 	public $body;
+	public $firstName;
+	public $lastName;
 	
 	public function __construct($recipient, $body)
 	{

@@ -6,7 +6,8 @@ class smsTestTask extends sfBaseTask
 	{
 		// // add your own arguments here
 		$this->addArguments(array(
-		   new sfCommandArgument('recipient', sfCommandArgument::REQUIRED, 'Mobile number to send SMS to'),
+		   new sfCommandArgument('action', sfCommandArgument::REQUIRED, 'send or check status'),
+		   new sfCommandArgument('recipient_or_message_id', sfCommandArgument::REQUIRED, 'Mobile number to send SMS to'),
 		 ));
 
 		$this->addOptions(array(
@@ -36,14 +37,33 @@ EOF;
 
 		$configuration = ProjectConfiguration::getApplicationConfiguration($options["application"], $options["env"], true);
 		sfContext::createInstance($configuration);
-		
+
 		sfConfig::set("sms_delivery_method", "realtime");
 		sfConfig::set("sms_gateway_class", "SmsGateways_".$options["gateway"]);
 
-		$sms = new Sms($arguments["recipient"],"Contenu");
-		$sms->send();
-		
-		$this->log("Envoi de SMS : succès");
-		
+		if ($arguments["action"]=="send")
+		{
+			$sms = new Sms($arguments["recipient_or_message_id"],"Contenu");
+			$sms->firstName = "Me";
+			$sms->lastName = "Me";
+			$sms->send();	
+		} else
+		{
+			$custId = sfConfig::get("sms_gateway_customer_id");
+			$passphrase = sfConfig::get("sms_gateway_passphrase");
+
+			$apiUrl =  sfConfig::get("sms_gateway_api_url");
+			$wsdlUrl = "$apiUrl?wsdl";
+
+			$client = new SoapClient($wsdlUrl, array(
+				"local_cert"=>sprintf("%s/config/%s", sfConfig::get("sf_root_dir"), sfConfig::get("sms_gateway_local_cert")), 
+				"passphrase"=>$passphrase)
+			);
+
+			var_dump($client->listResults(array("wsFilter"=>array("msgIds"=>array($arguments["recipient_or_message_id"]),"custId"=>$custId))));die();
+		}
+
+	
+
 	}
 }
