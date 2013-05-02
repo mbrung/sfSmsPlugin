@@ -1,0 +1,16 @@
+test: 
+  delivery_strategy: none
+  gateway: 
+    class: SmsGateways_Orange
+    api_key: 
+prod: 
+  delivery_strategy: realtime
+  gateway: 
+    class: SmsGateways_Orange
+    api_key: 
+
+all: 
+  delivery_strategy: none
+  gateway: 
+    class: SmsGateways_Orange
+    api_key: 
