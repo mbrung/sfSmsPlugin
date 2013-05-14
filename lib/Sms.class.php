@@ -5,6 +5,8 @@ class Sms
 	public $body;
 	public $firstName;
 	public $lastName;
+
+	private $isInternationalFormat = false;
 	
 	public function __construct($recipient, $body)
 	{
@@ -12,6 +14,16 @@ class Sms
 		$this->body = $body;
 	}
 	
+	public function setIsInternationalFormat($isInternationalFormat)
+	{
+		$this->isInternationalFormat = $isInternationalFormat;
+	}
+
+	public function isInternationalFormat()
+	{
+		return $this->isInternationalFormat;
+	}
+
 	private function doNotify()
 	{
 		sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($this, "sms.delivery"));
@@ -19,6 +31,11 @@ class Sms
 	
 	public function getRecipientAsInternationalNumber()
 	{
+		if ($this->isInternationalFormat)
+		{
+			return $this->recipient;
+		}
+
 		if (strpos($this->recipient, "33")===false)
 		{
 			return substr_replace($this->recipient, '33', 0, 1);

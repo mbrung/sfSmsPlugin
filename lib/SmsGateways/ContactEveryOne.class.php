@@ -51,13 +51,13 @@ EOF
 			"strategy"=>"sms",
 		);
 
-		echo "Sending message\n";
+		$this->info(sprintf("Processing message for '%s'\n", $this->sms->recipient);			
 
 		$object = $client->sendMessage(array("wsMessage"=>$message));
 		if (isset($object->sendMessageReturn))
 		{
-			echo sprintf("Message was processed.  Message id: '%d'\n", $object->sendMessageReturn->msgId);			
-		} 
+			$this->info(sprintf("Message to '%s' was processed.  Message id: '%d'\n", $this->sms->recipient, $object->sendMessageReturn->msgId));			
+		}
 	}
 	
 }?>
