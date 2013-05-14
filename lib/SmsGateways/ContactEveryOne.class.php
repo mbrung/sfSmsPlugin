@@ -51,7 +51,7 @@ EOF
 			"strategy"=>"sms",
 		);
 
-		$this->info(sprintf("Processing message for '%s'\n", $this->sms->recipient);			
+		$this->info(sprintf("Processing message for '%s'\n", $this->sms->recipient));			
 
 		$object = $client->sendMessage(array("wsMessage"=>$message));
 		if (isset($object->sendMessageReturn))
