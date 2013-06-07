@@ -57,6 +57,7 @@ EOF
 		if (isset($object->sendMessageReturn))
 		{
 			$this->info(sprintf("Message to '%s' was processed.  Message id: '%d'\n", $this->sms->recipient, $object->sendMessageReturn->msgId));			
+			$this->sms->messageId = $object->sendMessageReturn->msgId;
 		}
 	}
 	

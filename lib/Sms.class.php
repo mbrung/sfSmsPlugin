@@ -6,6 +6,11 @@ class Sms
 	public $firstName;
 	public $lastName;
 
+	/**
+	 * Used to hold the message identifier returned by the gateway
+	 */
+	public $messageId = null;
+
 	private $isInternationalFormat = false;
 	
 	public function __construct($recipient, $body)
